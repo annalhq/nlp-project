@@ -17,8 +17,7 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
       <div className="mb-10 flex items-center justify-between">
         <button
           onClick={onNewSearch}
-          className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--foreground)] 
-            font-medium transition-colors"
+          className="btn btn-ghost btn-sm gap-2"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path
@@ -34,9 +33,7 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
           href={data.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--surface)] 
-            border border-[var(--border)] rounded-lg hover:bg-[var(--surface-secondary)]
-            transition-colors font-medium text-sm"
+          className="btn btn-outline btn-sm gap-2"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path d="M11 3a1 1 0 100 2h3.586L9.293 9.293a1 1 0 000 1.414 1 1 0 001.414 0L16 6.414V10a1 1 0 102 0V4a1 1 0 00-1-1h-6z" />
@@ -53,34 +50,32 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
           {/* Issue Header */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="inline-block px-2.5 py-1 bg-[var(--accent)] text-white rounded text-xs font-semibold tracking-tight">
+              <span className="badge badge-primary badge-sm font-semibold tracking-tight">
                 Issue
               </span>
-              <span className="text-[var(--text-tertiary)] font-mono text-sm">
+              <span className="text-base-content/40 font-mono text-sm">
                 #{issue.number}
               </span>
             </div>
-            <h1 className="text-4xl font-bold text-[var(--foreground)] mb-5 leading-tight">
+            <h1 className="text-4xl font-bold text-base-content mb-5 leading-tight">
               {issue.title}
             </h1>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-sm">
               {issue.author && (
                 <div className="flex items-center gap-2">
-                  <span className="text-[var(--text-secondary)]">
-                    Opened by
-                  </span>
+                  <span className="text-base-content/60">Opened by</span>
                   <a
                     href={`https://github.com/${issue.author.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-[var(--foreground)] hover:text-[var(--accent)] transition-colors"
+                    className="font-medium text-base-content hover:text-primary transition-colors"
                   >
                     {issue.author.displayName}
                   </a>
                 </div>
               )}
               {issue.postedAt && (
-                <div className="text-[var(--text-tertiary)]">
+                <div className="text-base-content/40">
                   <time
                     dateTime={issue.postedAt.datetime}
                     title={issue.postedAt.label}
@@ -93,18 +88,20 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
           </div>
 
           {/* Issue Description */}
-          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-6">
-            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
-              Description
-            </h3>
-            <div className="text-[var(--text-secondary)] whitespace-pre-wrap break-words leading-relaxed">
-              {issue.body || "_No description provided_"}
+          <div className="card card-border bg-base-200 shadow-sm">
+            <div className="card-body gap-3">
+              <h3 className="card-title text-xs font-semibold text-base-content/50 uppercase tracking-widest">
+                Description
+              </h3>
+              <p className="text-base-content/70 whitespace-pre-wrap break-words leading-relaxed">
+                {issue.body || "_No description provided_"}
+              </p>
             </div>
           </div>
 
           {/* Comments Section */}
           <div>
-            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
+            <h3 className="text-xs font-semibold text-base-content/50 uppercase tracking-widest mb-4">
               Conversation ({comments.length})
             </h3>
             <CommentsList comments={comments} />
@@ -114,20 +111,18 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
         {/* Right Sidebar - Stats & Participants */}
         <div className="space-y-6">
           {/* Stats */}
-          <div className="space-y-3">
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-4">
-              <div className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-2">
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
+            <div className="stat bg-base-200 rounded-box shadow-sm p-4">
+              <div className="stat-title text-xs uppercase tracking-widest">
                 Comments
               </div>
-              <div className="text-3xl font-bold text-[var(--foreground)]">
-                {summary.totalComments}
-              </div>
+              <div className="stat-value text-3xl">{summary.totalComments}</div>
             </div>
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-4">
-              <div className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-2">
+            <div className="stat bg-base-200 rounded-box shadow-sm p-4">
+              <div className="stat-title text-xs uppercase tracking-widest">
                 Participants
               </div>
-              <div className="text-3xl font-bold text-[var(--foreground)]">
+              <div className="stat-value text-3xl">
                 {summary.participants.length}
               </div>
             </div>
@@ -135,36 +130,41 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
 
           {/* Participants */}
           {summary.participants.length > 0 && (
-            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-4">
-              <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
-                Active Participants
-              </h3>
-              <div className="space-y-2">
-                {summary.participants.slice(0, 8).map((username) => (
-                  <a
-                    key={username}
-                    href={`https://github.com/${username}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--background)] transition-colors text-sm truncate"
-                  >
-                    <img
-                      src={`https://github.com/${username}.png`}
-                      alt={username}
-                      className="w-6 h-6 rounded-full flex-shrink-0"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                    <span className="text-[var(--foreground)] truncate hover:text-[var(--accent)]">
-                      {username}
-                    </span>
-                  </a>
-                ))}
+            <div className="card card-border bg-base-200 shadow-sm">
+              <div className="card-body gap-3 p-4">
+                <h3 className="card-title text-xs font-semibold text-base-content/50 uppercase tracking-widest">
+                  Active Participants
+                </h3>
+                <ul className="menu menu-sm p-0 gap-0.5">
+                  {summary.participants.slice(0, 8).map((username) => (
+                    <li key={username}>
+                      <a
+                        href={`https://github.com/${username}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 truncate"
+                      >
+                        <div className="avatar">
+                          <div className="w-6 rounded-full">
+                            <img
+                              src={`https://github.com/${username}.png`}
+                              alt={username}
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display =
+                                  "none";
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <span className="truncate">{username}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
                 {summary.participants.length > 8 && (
-                  <div className="text-xs text-[var(--text-tertiary)] pt-2 px-3">
+                  <p className="text-xs text-base-content/40 px-2 pt-1">
                     +{summary.participants.length - 8} more
-                  </div>
+                  </p>
                 )}
               </div>
             </div>

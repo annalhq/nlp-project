@@ -25,7 +25,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col">
+    <div className="min-h-screen bg-base-100 text-base-content flex flex-col">
       <Header />
 
       <main className="flex-1">
@@ -46,14 +46,14 @@ export default function Home() {
         )}
 
         {!data && !loading && !error && (
-          <div className="py-20 sm:py-32">
-            <div className="max-w-2xl mx-auto px-6">
+          <div className="py-5  sm:py-10">
+            <div className="max-w-xl mx-auto px-6">
               {/* Hero Section */}
-              <div className="text-center mb-12">
-                <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
-                  Analyze GitHub Issues
+              <div className="text-center mb-8">
+                <h2 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight">
+                  Turn GitHub Issues into Clear Insights
                 </h2>
-                <p className="text-lg text-[var(--text-secondary)] max-w-lg mx-auto">
+                <p className="text-base text-base-content/60 max-w-md mx-auto">
                   Extract issue threads, view all comments, and understand
                   discussions at a glance
                 </p>

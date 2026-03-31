@@ -15,33 +15,57 @@ interface CommentProps {
 
 function Comment({ author, body, postedAt }: CommentProps) {
   return (
-    <div className="border border-[var(--border)] rounded-lg p-5 hover:border-[var(--text-tertiary)] transition-colors">
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <a
-            href={`https://github.com/${author?.username}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors"
-          >
-            {author?.displayName || "Unknown User"}
-          </a>
-          {author?.username && (
-            <span className="text-[var(--text-tertiary)] ml-2 text-sm">
-              @{author.username}
-            </span>
+    <div className="card card-border bg-base-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className="card-body p-5 gap-3">
+        {/* Author row */}
+        <div className="flex items-center gap-3">
+          <div className="avatar">
+            <div className="w-8 rounded-full">
+              <img
+                src={`https://github.com/${author?.username}.png`}
+                alt={author?.displayName ?? "User"}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(author?.displayName ?? "U")}&size=32`;
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col min-w-0">
+            <a
+              href={`https://github.com/${author?.username}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-base-content hover:text-primary transition-colors leading-tight"
+            >
+              {author?.displayName || "Unknown User"}
+            </a>
+            {author?.username && (
+              <span className="text-base-content/50 text-xs">
+                @{author.username}
+              </span>
+            )}
+          </div>
+
+          {postedAt && (
+            <time
+              dateTime={postedAt.datetime}
+              title={postedAt.label}
+              className="ml-auto text-xs text-base-content/40 shrink-0"
+            >
+              {postedAt.label}
+            </time>
           )}
         </div>
-      </div>
-      {postedAt && (
-        <div className="text-xs text-[var(--text-tertiary)] mb-3">
-          <time dateTime={postedAt.datetime} title={postedAt.label}>
-            {postedAt.label}
-          </time>
-        </div>
-      )}
-      <div className="text-[var(--text-secondary)] whitespace-pre-wrap break-words leading-relaxed">
-        {body || "_(empty comment)_"}
+
+        {/* Divider */}
+        <div className="divider my-0" />
+
+        {/* Body */}
+        <p className="text-base-content/70 whitespace-pre-wrap break-words leading-relaxed text-sm">
+          {body || "_(empty comment)_"}
+        </p>
       </div>
     </div>
   );
@@ -54,21 +78,21 @@ interface CommentsListProps {
 export default function CommentsList({ comments }: CommentsListProps) {
   if (comments.length === 0) {
     return (
-      <div className="text-center py-12 text-[var(--text-tertiary)]">
+      <div className="flex flex-col items-center justify-center py-16 text-base-content/40 gap-3">
         <svg
-          className="w-12 h-12 mx-auto mb-3 opacity-40"
+          className="w-12 h-12 opacity-40"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
           <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" />
         </svg>
-        <span>No comments on this issue</span>
+        <span className="text-sm">No comments on this issue</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-col gap-3">
       {comments.map((comment) => (
         <Comment key={comment.id} {...comment} />
       ))}
