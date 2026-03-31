@@ -1,0 +1,13 @@
+{
+  "name": "github-issue-extractor",
+  "version": "1.0.0",
+  "description": "Puppeteer-based GitHub issue thread extractor",
+  "main": "github-issue-extractor.js",
+  "scripts": {
+    "extract": "node scraper.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.0.0",
+    "sanitize-html": "^2.17.1"
+  }
+}
