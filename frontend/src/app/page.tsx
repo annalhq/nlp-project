@@ -62,66 +62,11 @@ export default function Home() {
               {/* Input Form */}
               <InputForm onSubmit={handleSubmit} isLoading={loading} />
 
-              {/* Examples Section */}
-              <div className="mt-16 pt-16 border-t border-[var(--border)]">
-                <p className="text-sm text-[var(--text-secondary)] text-center mb-6">
-                  Try with these examples:
-                </p>
-                <div className="grid sm:grid-cols-3 gap-3">
-                  {[
-                    {
-                      url: "https://github.com/nodejs/node/issues/12345",
-                      label: "Node.js",
-                      icon: "⚙️",
-                    },
-                    {
-                      url: "https://github.com/vercel/next.js/issues/43210",
-                      label: "Next.js",
-                      icon: "⚡",
-                    },
-                    {
-                      url: "https://github.com/facebook/react/issues/25000",
-                      label: "React",
-                      icon: "⚛️",
-                    },
-                  ].map(({ url, label, icon }) => (
-                    <button
-                      key={label}
-                      onClick={() => {
-                        const input = document.getElementById(
-                          "issue-url",
-                        ) as HTMLInputElement;
-                        if (input) {
-                          input.value = url;
-                        }
-                      }}
-                      className="group px-4 py-3 text-sm border border-[var(--border)] rounded-lg 
-                        hover:border-[var(--text-secondary)] hover:bg-[var(--surface)]
-                        transition-colors text-left"
-                    >
-                      <div className="font-medium text-[var(--foreground)] mb-1 flex items-center gap-2">
-                        <span>{icon}</span>
-                        {label}
-                      </div>
-                      <div className="text-xs text-[var(--text-tertiary)] truncate">
-                        Example issue
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[var(--border)] bg-[var(--background)]">
-        <div className="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-[var(--text-secondary)]">
-          Built with <span className="text-red-500">♥</span> to analyze GitHub
-          discussions
-        </div>
-      </footer>
     </div>
   );
 }
