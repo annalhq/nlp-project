@@ -77,7 +77,7 @@ function sanitizeToPlainText(html) {
 /* main
 /* -------------------------------------------------------------------------- */
 
-async function extractIssueThread(issueUrl) {
+export async function extractIssueThread(issueUrl) {
   console.log("\nStarting browser...");
 
   const browser = await puppeteer.launch({
@@ -236,43 +236,45 @@ async function extractIssueThread(issueUrl) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* CLI Entry                                                                  */
+/* CLI Entry (only runs when this file is executed directly)                 */
 /* -------------------------------------------------------------------------- */
 
-(async () => {
-  const args = process.argv.slice(2);
-  const issueUrl = args[0];
-  const outputFile = args[1] || "issue-thread.json";
+if (import.meta.url === `file://${process.argv[1]}`) {
+  (async () => {
+    const args = process.argv.slice(2);
+    const issueUrl = args[0];
+    const outputFile = args[1] || "issue-thread.json";
 
-  if (!issueUrl) {
-    console.error(
-      "Usage: node github-issue-extractor.js <issue-url> [output.json]",
-    );
-    process.exit(1);
-  }
+    if (!issueUrl) {
+      console.error(
+        "Usage: node github-issue-extractor.js <issue-url> [output.json]",
+      );
+      process.exit(1);
+    }
 
-  if (!/^https:\/\/github\.com\/.+\/issues\/\d+/.test(issueUrl)) {
-    console.error("Invalid GitHub issue URL.");
-    console.error("Expected format:");
-    console.error("https://github.com/<owner>/<repo>/issues/<number>");
-    process.exit(1);
-  }
+    if (!/^https:\/\/github\.com\/.+\/issues\/\d+/.test(issueUrl)) {
+      console.error("Invalid GitHub issue URL.");
+      console.error("Expected format:");
+      console.error("https://github.com/<owner>/<repo>/issues/<number>");
+      process.exit(1);
+    }
 
-  try {
-    const result = await extractIssueThread(issueUrl);
+    try {
+      const result = await extractIssueThread(issueUrl);
 
-    const outPath = path.resolve(outputFile);
-    fs.writeFileSync(outPath, JSON.stringify(result, null, 2), "utf-8");
+      const outPath = path.resolve(outputFile);
+      fs.writeFileSync(outPath, JSON.stringify(result, null, 2), "utf-8");
 
-    console.log("Extraction complete");
-    console.log(`Output file: ${outPath}`);
-    console.log(`Issue title: ${result.issue.title}`);
-    console.log(`Issue author: ${result.issue.author?.username ?? "unknown"}`);
-    console.log(`Total comments: ${result.summary.totalComments}`);
-    console.log(`Participants: ${result.summary.participants.join(", ")}`);
-  } catch (err) {
-    console.error("Extraction failed:");
-    console.error(err.message);
-    process.exit(1);
-  }
-})();
+      console.log("Extraction complete");
+      console.log(`Output file: ${outPath}`);
+      console.log(`Issue title: ${result.issue.title}`);
+      console.log(`Issue author: ${result.issue.author?.username ?? "unknown"}`);
+      console.log(`Total comments: ${result.summary.totalComments}`);
+      console.log(`Participants: ${result.summary.participants.join(", ")}`);
+    } catch (err) {
+      console.error("Extraction failed:");
+      console.error(err.message);
+      process.exit(1);
+    }
+  })();
+}

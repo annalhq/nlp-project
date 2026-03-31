@@ -1,12 +1,17 @@
 {
   "name": "github-issue-extractor",
   "version": "1.0.0",
-  "description": "Puppeteer-based GitHub issue thread extractor",
-  "main": "github-issue-extractor.js",
+  "description": "Puppeteer-based GitHub issue thread extractor with Express API",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "extract": "node scraper.js"
+    "extract": "node scraper.js",
+    "dev": "node server.js",
+    "start": "node server.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "puppeteer": "^22.0.0",
     "sanitize-html": "^2.17.1"
   }
