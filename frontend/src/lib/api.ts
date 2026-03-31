@@ -1,3 +1,8 @@
+export interface AiSummary {
+  issueSummary: string;
+  commentsSolutionSummary: string;
+}
+
 export interface IssueData {
   url: string;
   extractedAt: string;
@@ -33,6 +38,7 @@ export interface IssueData {
     totalComments: number;
     participants: string[];
   };
+  aiSummary: AiSummary;
 }
 
 export interface ApiResponse {

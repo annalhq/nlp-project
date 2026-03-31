@@ -1,6 +1,7 @@
 "use client";
 
 import CommentsList from "./CommentsList";
+import AISummaryCard from "./AISummaryCard";
 import { IssueData } from "@/lib/api";
 
 interface ResultsPanelProps {
@@ -9,7 +10,7 @@ interface ResultsPanelProps {
 }
 
 export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
-  const { issue, comments, summary } = data;
+  const { issue, comments, summary, aiSummary } = data;
 
   return (
     <div className="w-full max-w-6xl mx-auto px-6 py-12">
@@ -86,6 +87,30 @@ export default function ResultsPanel({ data, onNewSearch }: ResultsPanelProps) {
               )}
             </div>
           </div>
+
+          {/* ── AI Summary Section ── */}
+          {aiSummary && (
+            <div>
+              <h3 className="text-xs font-semibold text-base-content/50 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+                AI Analysis
+              </h3>
+              <AISummaryCard aiSummary={aiSummary} />
+            </div>
+          )}
 
           {/* Issue Description */}
           <div className="card card-border bg-base-200 shadow-sm">
