@@ -34,7 +34,7 @@ function CopyButton({ text, accent }: { text: string; accent: "primary" | "succe
     } catch { /* noop */ }
   };
 
-  const base = accent === "primary" ? "text-primary hover:bg-primary/10" : "text-success hover:bg-success/10";
+  const base = accent === "primary" ? "text-primary hover:bg-primary/10" : "text-emerald-700 dark:text-emerald-600 hover:bg-emerald-500/10";
 
   return (
     <button
@@ -64,8 +64,11 @@ function CopyButton({ text, accent }: { text: string; accent: "primary" | "succe
 // ── Stat chip ─────────────────────────────────────────────────────────────────
 
 function StatChip({ icon, label, accent }: { icon: React.ReactNode; label: string; accent: string }) {
+  const chipClasses = accent === "primary"
+    ? "bg-primary/10 text-primary"
+    : "bg-emerald-500/15 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-600";
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md bg-${accent}/12 text-${accent}`}>
+    <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md ${chipClasses}`}>
       {icon}
       {label}
     </span>
@@ -90,10 +93,10 @@ function TextBody({ text, accent }: TextBodyProps) {
   const wc = wordCount(text);
   const rt = readingTime(text);
 
-  const accentText  = accent === "primary" ? "text-primary"  : "text-success";
-  const accentBg    = accent === "primary" ? "bg-primary/8"  : "bg-success/8";
-  const accentBdr   = accent === "primary" ? "border-primary/30" : "border-success/30";
-  const accentHover = accent === "primary" ? "hover:bg-primary/10" : "hover:bg-success/10";
+  const btnColor    = accent === "primary" ? "text-primary" : "text-emerald-700 dark:text-emerald-600";
+  const accentBg    = accent === "primary" ? "bg-primary/10"  : "bg-emerald-500/10";
+  const accentBdr   = accent === "primary" ? "border-primary/30" : "border-emerald-500/40";
+  const accentHover = accent === "primary" ? "hover:bg-primary/10" : "hover:bg-emerald-500/10";
 
   const wordIcon = (
     <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -117,7 +120,7 @@ function TextBody({ text, accent }: TextBodyProps) {
       {/* Lead sentence — highlighted block */}
       {lead && (
         <blockquote className={`border-l-4 ${accentBdr} ${accentBg} rounded-r-lg px-4 py-3`}>
-          <p className={`text-sm font-bold leading-relaxed ${accentText}`}>
+          <p className="text-sm font-bold leading-relaxed text-base-content/90">
             {lead}
           </p>
         </blockquote>
@@ -134,7 +137,7 @@ function TextBody({ text, accent }: TextBodyProps) {
       {isLong && (
         <button
           onClick={() => setExpanded((e) => !e)}
-          className={`btn btn-ghost btn-xs font-semibold gap-1.5 ${accentText} ${accentHover}`}
+          className={`btn btn-ghost btn-xs font-semibold gap-1.5 ${btnColor} ${accentHover}`}
         >
           {expanded ? (
             <>
@@ -182,13 +185,13 @@ export default function AISummaryCard({ aiSummary }: AISummaryCardProps) {
   const accentGradient =
     activeTab === "issue"
       ? "from-primary/10 via-primary/5 to-transparent"
-      : "from-success/10 via-success/5 to-transparent";
+      : "from-emerald-500/15 via-emerald-500/5 to-transparent";
 
   const accentBorder =
-    activeTab === "issue" ? "border-primary/25" : "border-success/25";
+    activeTab === "issue" ? "border-primary/25" : "border-emerald-500/30";
 
-  const accentText = activeTab === "issue" ? "text-primary" : "text-success";
-  const accentBadgeBg = activeTab === "issue" ? "bg-primary/15" : "bg-success/15";
+  const accentText = activeTab === "issue" ? "text-primary" : "text-emerald-700 dark:text-emerald-600";
+  const accentBadgeBg = activeTab === "issue" ? "bg-primary/15" : "bg-emerald-500/15";
 
   return (
     <div className={`rounded-2xl border ${accentBorder} overflow-hidden shadow-lg bg-base-200 transition-all duration-500`}>
@@ -223,8 +226,8 @@ export default function AISummaryCard({ aiSummary }: AISummaryCardProps) {
           <div className="flex items-center gap-1.5 shrink-0">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full bg-base-300 text-base-content/60">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-70" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-success" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
               </span>
               T5-small
             </span>
@@ -236,8 +239,8 @@ export default function AISummaryCard({ aiSummary }: AISummaryCardProps) {
         <div className="flex gap-1.5 mt-4">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.key;
-            const tabAccentText  = tab.accent === "primary" ? "text-primary"  : "text-success";
-            const tabAccentBg    = tab.accent === "primary" ? "bg-primary/15" : "bg-success/15";
+            const tabAccentText  = tab.accent === "primary" ? "text-primary"  : "text-emerald-700 dark:text-emerald-600";
+            const tabAccentBg    = tab.accent === "primary" ? "bg-primary/15" : "bg-emerald-500/15";
             return (
               <button
                 key={tab.key}
@@ -260,15 +263,7 @@ export default function AISummaryCard({ aiSummary }: AISummaryCardProps) {
         <TextBody key={activeTab} text={activeText} accent={active.accent} />
       </div>
 
-      {/* ── Footer strip ──────────────────────────── */}
-      <div className="px-5 py-3 border-t border-base-300 bg-base-300/30 flex items-center justify-between gap-2">
-        <span className="text-xs font-semibold text-base-content/45">
-          Powered by <span className="font-bold text-base-content/60">T5-small</span> · GitBrief
-        </span>
-        <span className="text-xs font-medium text-base-content/40">
-          {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-        </span>
-      </div>
+
     </div>
   );
 }
