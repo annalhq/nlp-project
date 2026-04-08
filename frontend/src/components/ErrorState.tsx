@@ -1,13 +1,16 @@
 "use client";
 
+import { PipelineStep } from "@/hooks/useSummarizer";
+
 interface ErrorStateProps {
   error: string;
   onRetry?: () => void;
+  pipelineLog?: PipelineStep[];
 }
 
-export default function ErrorState({ error, onRetry }: ErrorStateProps) {
+export default function ErrorState({ error, onRetry, pipelineLog = [] }: ErrorStateProps) {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12">
+    <div className="max-w-2xl mx-auto px-4 py-12 space-y-4">
       <div role="alert" className="alert alert-error alert-soft">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -29,20 +32,41 @@ export default function ErrorState({ error, onRetry }: ErrorStateProps) {
           <ul className="text-sm mt-3 space-y-1 opacity-80 list-disc list-inside">
             <li>Verify the GitHub issue URL is correct</li>
             <li>Ensure the issue is publicly accessible</li>
-            <li>Check your internet connection</li>
+            <li>Check the scraper service is running on port 5000</li>
           </ul>
         </div>
       </div>
 
+      {/* Show partial pipeline log if available */}
+      {pipelineLog.length > 0 && (
+        <div className="card bg-base-300/50 border border-base-300">
+          <div className="card-body p-0">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-base-300">
+              <span className="flex gap-1">
+                <span className="w-2.5 h-2.5 rounded-full bg-error/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-warning/60" />
+                <span className="w-2.5 h-2.5 rounded-full bg-success/60" />
+              </span>
+              <span className="text-xs text-base-content/40 font-mono ml-1">pipeline.log</span>
+            </div>
+            <div className="px-4 py-3 space-y-1 font-mono text-xs overflow-y-auto max-h-40">
+              {pipelineLog.map((entry, i) => (
+                <div key={i} className="flex gap-2 items-start opacity-70">
+                  <span className="text-base-content/30 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                  <span className={entry.stage === "error" ? "text-error" : "text-base-content/70"}>
+                    <span className="text-base-content/40">[{entry.stage}]</span> {entry.message}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {onRetry && (
-        <div className="mt-4 flex justify-center">
+        <div className="flex justify-center">
           <button onClick={onRetry} className="btn btn-sm btn-neutral gap-2">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

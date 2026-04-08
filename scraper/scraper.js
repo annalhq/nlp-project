@@ -77,8 +77,9 @@ function sanitizeToPlainText(html) {
 /* main
 /* -------------------------------------------------------------------------- */
 
-export async function extractIssueThread(issueUrl) {
+export async function extractIssueThread(issueUrl, onProgress = () => {}) {
   console.log("\nStarting browser...");
+  onProgress("scraping", "Launching headless browser…", 10);
 
   const browser = await puppeteer.launch({
     headless: "new",
@@ -99,6 +100,7 @@ export async function extractIssueThread(issueUrl) {
 
   await page.setViewport({ width: 1280, height: 900 });
 
+  onProgress("scraping", "Navigating to GitHub issue page…", 20);
   console.log("Opening issue page:");
   console.log(issueUrl);
 
@@ -107,6 +109,7 @@ export async function extractIssueThread(issueUrl) {
     timeout: 60000,
   });
 
+  onProgress("scraping", "Waiting for page content to load…", 30);
   try {
     await page.waitForSelector("#issue-body-viewer", { timeout: 20000 });
   } catch {
@@ -127,6 +130,7 @@ export async function extractIssueThread(issueUrl) {
     return el ? el.textContent.replace(/\D/g, "") : null;
   });
 
+  onProgress("extracting", "Extracting issue metadata and body…", 45);
   console.log("Extracting main issue...");
 
   const issueSelector = "#issue-body-viewer";
@@ -173,6 +177,7 @@ export async function extractIssueThread(issueUrl) {
 
   /* ------------------------------ comments -------------------------------- */
 
+  onProgress("extracting", "Scanning thread for comments…", 55);
   console.log("Scanning for comments...");
 
   const commentIds = await page.evaluate(() => {
@@ -184,6 +189,7 @@ export async function extractIssueThread(issueUrl) {
   });
 
   console.log(`Found ${commentIds.length} comments`);
+  onProgress("extracting", `Found ${commentIds.length} comment(s) — extracting content…`, 60);
 
   const comments = [];
 
@@ -213,6 +219,7 @@ export async function extractIssueThread(issueUrl) {
 
   await browser.close();
   console.log("Browser closed\n");
+  onProgress("extracting", "Browser closed — scraping complete", 72);
 
   /* ------------------------------- result --------------------------------- */
 
