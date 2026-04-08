@@ -6,6 +6,7 @@ Receives scraped GitHub issue data and returns AI-generated summaries.
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from config import DEFAULT_CONFIG
 from summarizer import summarize_issue, summarize_comments_for_solutions
 
 # ---------------------------------------------------------------------------
@@ -78,7 +79,7 @@ app.add_middleware(
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "model": "t5-small"}
+    return {"status": "ok", "model": DEFAULT_CONFIG.model_name}
 
 
 @app.post("/api/summarize", response_model=SummarizeResponse)
