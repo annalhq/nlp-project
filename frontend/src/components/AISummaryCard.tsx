@@ -258,7 +258,6 @@ export default function AISummaryCard({ aiSummary }: AISummaryCardProps) {
         </div>
       </div>
 
-      {/* ── Body ──────────────────────────────────── */}
       <div className="px-5 py-5">
         <TextBody key={activeTab} text={activeText} accent={active.accent} />
       </div>

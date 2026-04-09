@@ -31,6 +31,8 @@ def chunk_text(tokenizer, text: str, config: SummarizerConfig = DEFAULT_CONFIG) 
         if end >= len(token_ids):
             break
 
+        # overlap is o, stride is B-o, to preserve local context across boundaries
+
         next_start = end - config.overlap_tokens
         start = max(next_start, start + 1)
 
