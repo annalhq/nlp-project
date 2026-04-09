@@ -9,9 +9,7 @@ from pydantic import BaseModel
 from config import DEFAULT_CONFIG
 from summarizer import summarize_issue, summarize_comments_for_solutions
 
-# ---------------------------------------------------------------------------
 # Pydantic models
-# ---------------------------------------------------------------------------
 
 class Author(BaseModel):
     displayName: str | None = None
@@ -59,9 +57,7 @@ class SummarizeResponse(BaseModel):
     commentsSolutionSummary: str
 
 
-# ---------------------------------------------------------------------------
 # FastAPI app
-# ---------------------------------------------------------------------------
 
 app = FastAPI(
     title="GitBrief Summarizer",

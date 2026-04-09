@@ -41,7 +41,7 @@ export default function Header() {
 
           <div className="hidden sm:block w-px h-4 bg-base-300 mx-1" />
 
-          <span className="hidden sm:block text-xs text-base-content/40 font-medium">
+          <span className="hidden sm:block text-xs text-base-content/70 font-medium">
             GitHub Issue Analyzer
           </span>
         </div>

@@ -7,15 +7,7 @@ import PipelineProgress from "@/components/PipelineProgress";
 import ErrorState from "@/components/ErrorState";
 import { useSummarizer } from "@/hooks/useSummarizer";
 
-// ── Feature pills ─────────────────────────────────────────────────────────────
-const FEATURES = [
-  { icon: "⚡", label: "Instant extraction" },
-  { icon: "🤖", label: "AI summarization" },
-  { icon: "💬", label: "Comment analysis" },
-  { icon: "🔍", label: "Smart insights" },
-];
 
-// ── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
     <footer className="border-t border-base-200 py-5 px-6">
@@ -31,7 +23,6 @@ function Footer() {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function Home() {
   const {
     data,
@@ -74,7 +65,7 @@ export default function Home() {
                   at a glance
                 </h1>
                 <p className="text-[15px] text-base-content/50 max-w-[360px] mx-auto leading-relaxed">
-                  Paste any GitHub issue URL — GitBrief scrapes the full thread
+                  Paste any GitHub issue URL, GitBrief scrapes the full thread
                   and delivers an AI-powered summary in seconds.
                 </p>
               </div>
